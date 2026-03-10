@@ -3082,6 +3082,7 @@ type ThirdClient interface {
 	UploadLogs(ctx context.Context, in *UploadLogsReq, opts ...grpc.CallOption) (*UploadLogsResp, error)
 	DeleteLogs(ctx context.Context, in *DeleteLogsReq, opts ...grpc.CallOption) (*DeleteLogsResp, error)
 	SearchLogs(ctx context.Context, in *SearchLogsReq, opts ...grpc.CallOption) (*SearchLogsResp, error)
+	VideoDelete(ctx context.Context, in *VideoDeleteReq, opts ...grpc.CallOption) (*VideoDeleteResp, error)
 }
 
 type thirdClient struct {
@@ -3218,6 +3219,15 @@ func (c *thirdClient) SearchLogs(ctx context.Context, in *SearchLogsReq, opts ..
 	return out, nil
 }
 
+func (c *thirdClient) VideoDelete(ctx context.Context, in *VideoDeleteReq, opts ...grpc.CallOption) (*VideoDeleteResp, error) {
+	out := new(VideoDeleteResp)
+	err := c.cc.Invoke(ctx, "/openim.third.third/VideoDelete", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ThirdServer is the server API for Third service.
 type ThirdServer interface {
 	PartLimit(context.Context, *PartLimitReq) (*PartLimitResp, error)
@@ -3235,6 +3245,7 @@ type ThirdServer interface {
 	UploadLogs(context.Context, *UploadLogsReq) (*UploadLogsResp, error)
 	DeleteLogs(context.Context, *DeleteLogsReq) (*DeleteLogsResp, error)
 	SearchLogs(context.Context, *SearchLogsReq) (*SearchLogsResp, error)
+	VideoDelete(context.Context, *VideoDeleteReq) (*VideoDeleteResp, error)
 }
 
 // UnimplementedThirdServer can be embedded to have forward compatible implementations.
@@ -3283,6 +3294,10 @@ func (*UnimplementedThirdServer) DeleteLogs(context.Context, *DeleteLogsReq) (*D
 func (*UnimplementedThirdServer) SearchLogs(context.Context, *SearchLogsReq) (*SearchLogsResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchLogs not implemented")
 }
+func (*UnimplementedThirdServer) VideoDelete(context.Context, *VideoDeleteReq) (*VideoDeleteResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VideoDelete not implemented")
+}
+
 
 func RegisterThirdServer(s *grpc.Server, srv ThirdServer) {
 	s.RegisterService(&_Third_serviceDesc, srv)
@@ -3540,6 +3555,24 @@ func _Third_SearchLogs_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Third_VideoDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VideoDeleteReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ThirdServer).VideoDelete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/openim.third.third/VideoDelete",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ThirdServer).VideoDelete(ctx, req.(*VideoDeleteReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Third_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "openim.third.third",
 	HandlerType: (*ThirdServer)(nil),
@@ -3599,6 +3632,10 @@ var _Third_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SearchLogs",
 			Handler:    _Third_SearchLogs_Handler,
+		},
+		{
+			MethodName: "VideoDelete",
+			Handler:    _Third_VideoDelete_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
