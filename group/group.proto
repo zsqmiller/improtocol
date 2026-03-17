@@ -400,6 +400,16 @@ message BatchGetIncrementalGroupMemberResp {
   map<string, getIncrementalGroupMemberResp> respList = 1;
 }
 
+message GroupInviteAcceptReq {
+  string id =1;
+  string userId = 2;
+}
+
+message GroupInviteAcceptResp {
+
+}
+
+
 service group {
   //创建群
   rpc createGroup(CreateGroupReq) returns (CreateGroupResp);
