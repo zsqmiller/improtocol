@@ -6425,7 +6425,7 @@ func (c *msgClient) GetStreamMsg(ctx context.Context, in *GetStreamMsgReq, opts 
 
 func (c *msgClient) UpdateAck(ctx context.Context, in *UpdateAckReq, opts ...grpc.CallOption) (*UpdateAckResp, error) {
 	out := new(UpdateAckResp)
-	err := c.cc.Invoke(ctx, "/openim.msg.msg/UpdateAckMsg", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/openim.msg.msg/UpdateAck", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
