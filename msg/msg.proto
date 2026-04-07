@@ -375,6 +375,16 @@ message GetStreamMsgResp {
   int64 deadlineTime = 7;
 }
 
+message UpdateAckReq {
+  string serverMsgID = 1;
+  string clientMsgID = 2;
+  string userId=3;
+}
+
+message UpdateAckResp {
+
+}
+
 service msg {
   //获取最小最大seq（包括用户的，以及指定群组的）
   rpc GetMaxSeq(sdkws.GetMaxSeqReq) returns (sdkws.GetMaxSeqResp);
