@@ -23,9 +23,9 @@ func (x *PushMsgReq) Check() error {
 	if err := x.MsgData.Check(); err != nil {
 		return err
 	}
-	if x.ConversationID == "" {
-		return errors.New("ConversationID is empty")
-	}
+	//if x.ConversationID == "" {
+	//	return errors.New("ConversationID is empty")
+	//}
 	return nil
 }
 
